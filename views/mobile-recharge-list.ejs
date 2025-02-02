@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recharge Plans</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f1f1f1;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .plan {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .plan:last-child {
+            border-bottom: none;
+        }
+        .title {
+            font-weight: bold;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .home-button {
+            display: block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+        .home-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/home" class="home-button">Home</a>
+        <h2>Recharge Plans</h2>
+        <% if (plans && plans.length > 0) { %>
+            <% plans.forEach(plan => { %>
+                <div class="plan">
+                    <form action="/submit-specific-mobile-plan" method="POST">
+                        <div><span class="title">Validity:</span> <%= plan.validity %></div>
+                        <div><span class="title">Data:</span> <%= plan.data %></div>
+                        <div><span class="title">Price:</span> <%= plan.price %></div>
+                        <% if (plan.description) { %>
+                            <div><span class="title">Description:</span> <%= plan.description %></div>
+                        <% } %>
+                        <div><span class="title">SIM:</span> <%= plan.sim %></div>
+                        <div><span class="title">Talk Time:</span> <%= plan.talk_time %></div>
+                        <input type="hidden" name="upid" value="<%= upid %>">
+                        <input type="hidden" name="mobileNumber" value="<%= mobileNumber %>">
+                        <input type="hidden" name="validity" value="<%= plan.validity %>">
+                        <input type="hidden" name="data" value="<%= plan.data %>">
+                        <input type="hidden" name="price" value="<%= plan.price %>">
+                        <% if (plan.description) { %>
+                            <input type="hidden" name="description" value="<%= plan.description %>">
+                        <% } %>
+                        <input type="hidden" name="sim" value="<%= plan.sim %>">
+                        <input type="hidden" name="talk_time" value="<%= plan.talk_time %>">
+                        <div class="buttons">
+                            <button type="submit">Pay</button>
+                        </div>
+                    </form>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div>No recharge plans found.</div>
+        <% } %>
+    </div>
+</body>
+</html>

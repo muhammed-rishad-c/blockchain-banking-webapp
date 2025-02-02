@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Water Bill Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .payment-request {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+        .payment-request h2 {
+            margin-bottom: 20px;
+        }
+        .payment-details {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .payment-details div {
+            margin-bottom: 10px;
+        }
+        .payment-button {
+            display: inline-block;
+            background-color: #4285f4;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .payment-button:hover {
+            background-color: #357ae8;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-request">
+        <h2>Electicity Bill Payment</h2>
+        <form action="/process-electricity-payment" method="POST">
+            <div class="payment-details">
+                <div><strong>Authority Name:</strong> <%= bill.authorityName %></div>
+                <div><strong>Consumer Number:</strong> <%= bill['consumer-number'] %></div>
+                <div><strong>Bill Number:</strong> <%= bill.billnumber %></div>
+                <div><strong>Amount:</strong> ₹<%= bill.amount %></div>
+                <div><strong>Current Date:</strong> <%= new Date(bill.currentdate).toLocaleDateString() %></div>
+                <div><strong>Due Date:</strong> <%= new Date(bill.due_date).toLocaleDateString() %></div>
+                <input type="hidden" name="authorityName" value="<%= bill.authorityName %>">
+                <input type="hidden" name="consumer-number" value="<%= bill['consumer-number'] %>">
+                <input type="hidden" name="billnumber" value="<%= bill.billnumber %>">
+                <input type="hidden" name="amount" value="<%= bill.amount %>">
+                <input type="hidden" name="currentdate" value="<%= bill.currentdate %>">
+                <input type="hidden" name="duedate" value="<%= bill.due_date %>">
+            </div>
+            <div class="detail">
+                <span>Type:</span>
+                <label><input type="radio" name="type" value="global" checked> Global</label>
+                <label><input type="radio" name="type" value="private"> Private</label>
+            </div>
+            <button type="submit" class="payment-button">Pay Now</button>
+        </form>
+    </div>
+</body>
+</html>

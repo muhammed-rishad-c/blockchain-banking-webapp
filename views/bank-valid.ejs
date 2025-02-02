@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Verify Transfer Details</title>
+    <style>
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .form-container .info {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: 300px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .form-container input {
+            margin-bottom: 15px;
+            padding: 10px;
+            width: 300px;
+        }
+
+        .form-container button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="form-container">
+        <h1>Verify Transfer Details</h1>
+        <div class="info">
+            <p>Account Number: <%= detail['account-number'] %>
+            </p>
+            <p>IFSC Code: <%= detail['ifsc-code'] %>
+            </p>
+            <p>Account is valid</p>
+        </div>
+        <form action="/complete-bank-transfer" method="post">
+            <input type="hidden" name="account-number" value="<%= detail['account-number'] %>">
+            <input type="hidden" name="ifsc-code" value="<%= detail['ifsc-code'] %>">
+            <div class="form-group">
+                <label for="transactionType">Transaction Type:</label>
+                <select id="transactionType" name="type" required>
+                    <option value="global">Global</option>
+                    <option value="private">Private</option>
+                </select>
+            </div>
+            <div>
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" required>
+            </div>
+            <button type="submit">Pay</button>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set UPI Pin</title>
+    <script>
+        function validateForm() {
+            const pin = document.getElementById('pin').value;
+            const confirmPin = document.getElementById('confirmPin').value;
+            if (pin !== confirmPin) {
+                alert('Pins do not match. Please try again.');
+                return false;
+            }
+            if (pin.length !== 4 || confirmPin.length !== 4) {
+                alert('UPI Pin must be exactly 4 digits. Please try again.');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</head>
+<body>
+    <h1>Your UPI ID is: <%= upId %></h1>
+    <form action="/set-upi-pin" method="POST" onsubmit="return validateForm()">
+        <label for="pin">Enter UPI Pin:</label>
+        <input type="password" id="pin" name="pin" maxlength="4" required>
+        <br>
+        <label for="confirmPin">Confirm UPI Pin:</label>
+        <input type="password" id="confirmPin" name="confirmPin" maxlength="4" required>
+        <input type="hidden" name="upiId" value="<%= upId %>">
+        <br>
+        <button type="submit">Set UPI Pin</button>
+    </form>
+</body>
+</html>

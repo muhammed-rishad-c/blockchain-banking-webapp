@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Mobile Recharge</title>
+  <style>
+    .form-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+    }
+
+    .form-container input,
+    .form-container select {
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .form-container button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-container button:hover {
+      background-color: #0056b3;
+    }
+
+    .home-button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .home-button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="form-container">
+    <h2>Mobile Recharge</h2>
+    <% if (locals.message) { %>
+      <div class="error-message">
+        <%= message %>
+      </div>
+      <% } %>
+        <form action="/submit-mobile-recharge" method="POST">
+          <label for="mobile-number">Mobile Number:</label>
+          <input type="text" id="mobile-number" name="mobile-number" pattern="\d{10}" required>
+
+          <label for="sim-provider">SIM Provider:</label>
+          <select id="sim-provider" name="sim" required>
+            <option value="VI">VI</option>
+            <option value="JIO">JIO</option>
+            <option value="BSNL">BSNL</option>
+            <option value="AIRTEL">AIRTEL</option>
+          </select>
+
+          <input type="hidden" id="upiid" name="upid" value="<%= upid %>">
+
+          <button type="submit">Recharge</button>
+        </form>
+        <button class="home-button" onclick="window.location.href='/home'">Home</button>
+  </div>
+</body>
+
+</html>

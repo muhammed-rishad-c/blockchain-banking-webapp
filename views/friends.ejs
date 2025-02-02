@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .friend-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 80%;
+            background: white;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .friend-card img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        .friend-info {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        .pay-button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .pay-button:hover {
+            background-color: #45a049;
+        }
+
+        .home-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .home-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Friends List</h1>
+    <% friends.forEach(friend => { %>
+        <div class="friend-card">
+            <img src="/uploads/<%= friend.photo %>" alt="Friend Photo">
+            <div class="friend-info">
+                <h3><%= friend.full_name %></h3>
+                <p><%= friend.upi %></p>
+            </div>
+            <button class="pay-button" onclick="window.location.href='/pay-friend/<%= friend.upi %>'">Pay</button>
+        </div>
+    <% }) %>
+    <a href="/home" class="home-button">Home</a>
+</body>
+</html>

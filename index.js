@@ -84,7 +84,6 @@ app.post('/signup', upload.single('photo'), async (req, res) => {
             password: hashedPassword,
             photo
         };
-
         helpers.addUser(userData, photo).then((status) => {
             if (status) {
                 console.log('Data has been entered into the database');
@@ -113,6 +112,7 @@ app.post('/signup', upload.single('photo'), async (req, res) => {
     }
 });
 
+
 app.post('/set-upi-pin', async (req, res) => {
     const { pin, upiId } = req.body;
     const hashedPin = await hashPassword(pin);
@@ -129,10 +129,10 @@ app.post('/set-upi-pin', async (req, res) => {
     })
 })
 
+
 app.post('/login', async (req, res) => {
     const { password, username } = req.body;
     //console.log('Entered Password:', password);
-
     try {
         const user = await helpers.getUser(username); // Fetch user details by username
         if (user) {
@@ -143,7 +143,6 @@ app.post('/login', async (req, res) => {
                     //console.log(detail);
                     req.session.loggedIn = true;
                     req.session.upId = detail[0].upid;
-
                     res.render('index', { userDetail: detail });
                 }).catch((err) => {
                     console.log('Error in getting user detail from login to index:', err);
@@ -164,9 +163,11 @@ app.post('/login', async (req, res) => {
     }
 });
 
+
 app.get('/balance/:upid', (req, res) => {
     res.render('pin-balance');
 });
+
 
 app.post('/submit-pin', async (req, res) => {
     const { combinedPin } = req.body;
@@ -200,7 +201,6 @@ app.post('/submit-pin', async (req, res) => {
 });
 
 
-
 app.get('/home', verifyLogin, (req, res) => {
     const upid = req.session.upId;
     helpers.getUserDetail(upid).then((detail) => {
@@ -208,10 +208,12 @@ app.get('/home', verifyLogin, (req, res) => {
     })
 })
 
+
 app.get('/transfer/:upid', (req, res) => {
     const upId = req.params.upid;
     res.render("transaction-username", { upId: upId });
 })
+
 
 app.post("/submit-transaction", (req, res) => {
     //console.log(req.body);
@@ -219,8 +221,9 @@ app.post("/submit-transaction", (req, res) => {
     res.render('pin-transaction', { detail: req.body });
 })
 
+
 app.post('/submit-transaction-pin', async (req, res) => {
-    //console.log(req.body);
+    console.log("this is what it is:",req.body);
     const { combinedPin } = req.body;
     try {
         const user = await helpers.getUserDetail(req.session.upId);
@@ -230,18 +233,16 @@ app.post('/submit-transaction-pin', async (req, res) => {
                 const balance = await helpers.getBalance(req.session.upId);
                 if (balance.balance >= req.body.amount) {
                     helpers.addTransaction(req.body, req.session.upId)
-                        .then((status) => {
+                        .then((status) => { 
                             if (status) {
-                                helpers.getSpecificTransaction(req.session.upId)
+                                helpers.getSpecificTransaction(req.session.upId) 
                                     .then(async (detail) => {
                                         try {
                                             const recipient = await helpers.getRecipientDetail(detail.recipient);
                                             //console.log(recipient);
                                             //console.log(detail);
-
                                             detail.recipientName = recipient.full_name;
                                             detail.recipientPhoto = recipient.photo;
-
                                             res.render('payment-successful', { detail: detail });
                                         } catch (error) {
                                             console.log("Error fetching recipient details: " + error);
@@ -265,7 +266,7 @@ app.post('/submit-transaction-pin', async (req, res) => {
                     res.render("transaction-username", { upId: req.session.upId, message: "Insufficient balance" });
                 }
             } else {
-                res.render("pin-transaction", { message: "Incorrect PIN" });
+                res.render("pin-transaction", { message: "Incorrect PIN" ,detail:req.body});
             }
         } else {
             res.render("pin-transaction", { message: "User not found" });
@@ -275,6 +276,7 @@ app.post('/submit-transaction-pin', async (req, res) => {
         res.status(500).send("Error during transaction processing");
     }
 });
+
 
 app.get('/history/:upid', async (req, res) => {
     const upid = req.params.upid;
@@ -287,9 +289,11 @@ app.get('/history/:upid', async (req, res) => {
     }
 });
 
+
 app.get('/search/:upid', (req, res) => {
     res.render('search');
 })
+
 
 app.post('/search', async (req, res) => {
     const { username } = req.body;
@@ -309,6 +313,7 @@ app.post('/search', async (req, res) => {
     }
 });
 
+
 app.get('/pay-contact/:upi', async (req, res) => {
     const upi = req.params.upi;
     try {
@@ -319,6 +324,7 @@ app.get('/pay-contact/:upi', async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+
 
 app.get('/pay-friend/:recipientUpi', async (req, res) => {
     const recipientUpi = req.params.recipientUpi;
@@ -331,11 +337,13 @@ app.get('/pay-friend/:recipientUpi', async (req, res) => {
     }
 });
 
+
 app.post('/submit-friend-transaction', async (req, res) => {
     console.log(req.body);
 
     res.render('pin-friend', { detail: req.body })
 });
+
 
 app.post('/submit-friend-transaction-pin', async (req, res) => {
     //console.log(req.body);
@@ -383,21 +391,23 @@ app.post('/submit-friend-transaction-pin', async (req, res) => {
                     res.render("transaction-friend", { upId: req.session.upId, recipient: req.body.recipient, message: "Insufficient balance" });
                 }
             } else {
-                res.render("pin-transaction", { message: "Incorrect PIN" });
+                res.render("pin-friend", { message: "Incorrect PIN",detail:req.body });
             }
         } else {
             res.render("pin-number2", { message: "User not found" });
-        }
+        } 
     } catch (e) {
         console.log("Error during transaction processing: " + e);
         res.status(500).send("Error during transaction processing");
     }
 });
 
+
 app.get('/pay-any-upi/:upid', (req, res) => {
     const upId = req.params.upid;
     res.render('transaction-upi', { upId: upId })
 })
+
 
 app.post("/submit-upi-transfer", (req, res) => {
     console.log(req.body);
@@ -422,11 +432,8 @@ app.post('/submit-upi-pin', async (req, res) => {
                                 helpers.getSpecificTransaction(req.session.upId)
                                     .then(async (detail) => {
                                         try {
-
-
                                             detail.recipientName = req.body.recipientUpi;
                                             detail.recipientPhoto = 'upi-payment.jpeg';
-
                                             res.render('payment-successful', { detail: detail });
                                         } catch (error) {
                                             console.log("Error fetching recipient details: " + error);
@@ -450,7 +457,7 @@ app.post('/submit-upi-pin', async (req, res) => {
                     res.render("transaction-upi", { upId: req.session.upId, message: "Insufficient balance" });
                 }
             } else {
-                res.render("pin-transaction", { message: "Incorrect PIN" });
+                res.render("pin-transaction", { message: "Incorrect PIN",detail:req.body });
             }
         } else {
             res.render("pin-transaction", { message: "User not found" });
@@ -461,10 +468,12 @@ app.post('/submit-upi-pin', async (req, res) => {
     }
 });
 
+
 app.get('/logout', (req, res) => {
     req.session.loggedIn = false;
     res.render('login');
 })
+
 
 app.get('/user-profile/:upid', async (req, res) => {
     const upid = req.params.upid;
@@ -481,10 +490,13 @@ app.get('/user-profile/:upid', async (req, res) => {
     }
 });
 
+
 app.get('/mobile-recharge/:upid', (req, res) => {
     const upid = req.params.upid;
     res.render('mobile-recharge', { upid: upid });
 })
+
+
 app.post('/submit-mobile-recharge', async (req, res) => {
     req.session.upId = req.body.upId || req.session.upId; // Ensure upId is set in the session
     const { sim } = req.body;
@@ -497,128 +509,118 @@ app.post('/submit-specific-mobile-plan', (req, res) => {
     res.render('confirm-mobile-recharge', { details: req.body });
 });
 
+
 app.post('/process-mobile-payment', (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     res.render('pin-mobile-recharge', { detail: req.body });
 });
 
 
 app.post('/submit-mobile-transaction-pin', async (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     const recipient_name = `${req.body.recipient} Recharge`;
     const { combinedPin } = req.body;
-
     try {
         const user = await helpers.getUserDetail(req.session.upId);
         if (!user) {
             return res.render("pin-mobile-recharge", { message: "User not found", detail: req.body });
         }
-
         const match = await bcrypt.compare(combinedPin, user[0].pin);
         if (!match) {
             return res.render("pin-mobile-recharge", { message: "Incorrect PIN", detail: req.body });
         }
-
         const balance = await helpers.getBalance(req.session.upId);
         if (!balance || balance.balance < req.body.amount) {
             return res.render("mobile-recharge", { upid: req.session.upId, message: "Insufficient balance" });
         }
-
         const status = await helpers.addMobileTransaction(req.body, req.session.upId);
         if (!status) {
             console.log("Error adding transaction.");
             return res.status(500).send("Error adding transaction");
         }
-
         const detail = await helpers.getSpecificTransaction(req.session.upId);
         if (!detail) {
             console.log("Error fetching specific transaction.");
             return res.status(500).send("Error fetching specific transaction");
         }
-
         detail.recipientName = recipient_name;
         detail.recipientPhoto = `${req.body.recipient}.jpeg`;
         return res.render('payment-successful', { detail: detail });
-
     } catch (e) {
         console.log("Error during transaction processing: " + e);
         return res.status(500).send("Error during transaction processing");
     }
 });
 
+
 app.get('/bank-transfer/:upid', (req, res) => {
     res.render('bank-transfer', { upid: req.session.upId });
 });
+
 
 app.post('/transfer-bank', (req, res) => {
     //console.log(req.body);
     res.render('bank-valid', { detail: req.body });
 });
 
+
 app.post('/complete-bank-transfer', (req, res) => {
-    //console.log(req.body);
+    //console.log("it is also",req.body);
     res.render("pin-bank", { detail: req.body, upid: req.session.upId })
 })
 
+
 app.post('/submit-bank-pin', async (req, res) => {
-    //console.log(req.body);
-
-
+    //console.log("it is ",req.body);
     const { combinedPin } = req.body;
-
     try {
         const user = await helpers.getUserDetail(req.session.upId);
         if (!user) {
             return res.render("pin-bank", { message: "User not found", detail: req.body });
         }
-
         const match = await bcrypt.compare(combinedPin, user[0].pin);
         if (!match) {
-            return res.render("pin-bank", { message: "Incorrect PIN", detail: req.body });
+            return res.render("pin-bank", { message: "Incorrect PIN", detail: req.body,upid:req.session.upId });
         }
-
         const balance = await helpers.getBalance(req.session.upId);
         if (!balance || balance.balance < req.body.amount) {
             return res.render("bank-transfer", { upid: req.session.upId, message: "Insufficient balance" });
         }
-
         const status = await helpers.addBankTransaction(req.body, req.session.upId);
         if (!status) {
             console.log("Error adding transaction.");
             return res.status(500).send("Error adding transaction");
         }
-
         const detail = await helpers.getSpecificTransaction(req.session.upId);
         if (!detail) {
             console.log("Error fetching specific transaction.");
             return res.status(500).send("Error fetching specific transaction");
         }
-
         detail.recipientName = detail.recipient;
         detail.recipientPhoto = 'bank-transfer.jpeg';
         return res.render('payment-successful', { detail: detail });
-
     } catch (e) {
         console.log("Error during transaction processing: " + e);
         return res.status(500).send("Error during transaction processing");
     }
-
 })
+
 
 app.get('/water-bill/:upid', async (req, res) => {
     const WaterList = await helpers.getWaterList();
     res.render('water-list', { waterAuthority: WaterList });
 })
 
+
 app.post('/submit-water-bill-authority', (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     const { authorityName } = req.body;
     res.render('water-bill', { authorityName: authorityName });
-
 });
 
+
 app.post('/water-bill-payment', async (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     const waterBill = await helpers.getWaterAmount();
     console.log(waterBill);
     const billData = {
@@ -629,69 +631,66 @@ app.post('/water-bill-payment', async (req, res) => {
     res.render('water-valid', { bill: billData });
 });
 
+
 app.post('/process-water-payment', (req, res) => {
-    console.log(req.body);
+    //console.log("before pin",req.body);
     res.render("pin-water", { detail: req.body, upid: req.session.upId })
 })
 
-app.post('/submit-water-pin', async (req, res) => {
-    console.log(req.body);
 
+app.post('/submit-water-pin', async (req, res) => {
+    //console.log("at pin",req.body);
     const { combinedPin } = req.body;
     try {
         const user = await helpers.getUserDetail(req.session.upId);
         if (!user) {
             return res.render("pin-water", { message: "User not found", detail: req.body });
         }
-
         const match = await bcrypt.compare(combinedPin, user[0].pin);
         if (!match) {
-            return res.render("pin-water", { message: "Incorrect PIN", detail: req.body });
+            return res.render("pin-water", { message: "Incorrect PIN", detail: req.body,upid:req.session.upId });
         }
-
         const balance = await helpers.getBalance(req.session.upId);
         if (!balance || balance.balance < req.body.amount) {
             return res.render("water-bill", { upid: req.session.upId, message: "Insufficient balance" });
         }
-
         const status = await helpers.addWaterTransaction(req.body, req.session.upId);
         if (!status) {
             console.log("Error adding transaction.");
             return res.status(500).send("Error adding transaction");
         }
-
         const detail = await helpers.getSpecificTransaction(req.session.upId);
         if (!detail) {
             console.log("Error fetching specific transaction.");
             return res.status(500).send("Error fetching specific transaction");
         }
-
         detail.recipientName = detail.recipient;
         detail.recipientPhoto = `${req.body.recipient}.jpeg`;
         return res.render('payment-successful', { detail: detail });
-
     } catch (e) {
         console.log("Error during transaction processing: " + e);
         return res.status(500).send("Error during transaction processing");
     }
+}); 
 
-});
-
+ 
 app.get('/electricity-bill/:upid', async (req, res) => {
     const WaterList = await helpers.getElectricityList();
     res.render('electricity-list', { electricityAuthority: WaterList });
 })
 
+
 app.post('/submit-electricity-bill-authority', (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     const { authorityName } = req.body;
     res.render('electricity-bill', { authorityName: authorityName });
 });
 
+
 app.post('/electricity-bill-payment', async (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     const electricityBill = await helpers.getElectricityAmount();
-    console.log(electricityBill);
+    //console.log(electricityBill);
     const billData = {
         ...electricityBill[0],
         authorityName: req.body.authorityName,
@@ -700,53 +699,48 @@ app.post('/electricity-bill-payment', async (req, res) => {
     res.render('electricity-valid', { bill: billData });
 });
 
+
 app.post('/process-electricity-payment', (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     res.render("pin-electricity", { detail: req.body, upid: req.session.upId })
 })
 
+
 app.post('/submit-electricity-pin', async (req, res) => {
     console.log(req.body);
-
     const { combinedPin } = req.body;
     try {
         const user = await helpers.getUserDetail(req.session.upId);
         if (!user) {
             return res.render("pin-electricity", { message: "User not found", detail: req.body });
         }
-
         const match = await bcrypt.compare(combinedPin, user[0].pin);
         if (!match) {
-            return res.render("pin-electricity", { message: "Incorrect PIN", detail: req.body });
+            return res.render("pin-electricity", { message: "Incorrect PIN", detail: req.body,upid:req.session.upId });
         }
-
         const balance = await helpers.getBalance(req.session.upId);
         if (!balance || balance.balance < req.body.amount) {
             return res.render("electricity-bill", { upid: req.session.upId, message: "Insufficient balance" });
         }
-
         const status = await helpers.addElectricityTransaction(req.body, req.session.upId);
         if (!status) {
             console.log("Error adding transaction.");
             return res.status(500).send("Error adding transaction");
         }
-
         const detail = await helpers.getSpecificTransaction(req.session.upId);
         if (!detail) {
             console.log("Error fetching specific transaction.");
             return res.status(500).send("Error fetching specific transaction");
         }
-
         detail.recipientName = detail.recipient;
         detail.recipientPhoto = `${req.body.recipient}.jpg`;
         return res.render('payment-successful', { detail: detail });
-
     } catch (e) {
         console.log("Error during transaction processing: " + e);
         return res.status(500).send("Error during transaction processing");
     }
-
 });
+
 
 app.listen(3000, () => {
     console.log("Server is running on port 3000...");

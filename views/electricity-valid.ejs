@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electricity Bill Payment | ChainFlow</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* Global Styles */
+    body {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    /* App Title */
+    .app-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    .app-title .icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #000000;
+      font-size: 40px;
+    }
+
+    /* Section Styles */
+    .section {
+      margin: 40px auto;
+      max-width: 600px;
+      padding: 30px;
+      background: #F8F8F8;
+      border-radius: 15px;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+    }
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: black;
+      font-weight: 600;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .section-title i {
+      color: #2973B2;
+    }
+
+    /* Payment Details */
+    .payment-details {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    .detail-row {
+      display: flex;
+      margin-bottom: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    .detail-row:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .detail-label {
+      font-weight: 600;
+      width: 40%;
+      color: #666;
+    }
+    .detail-value {
+      width: 60%;
+    }
+
+    /* Payment Type Selection */
+    .payment-type {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    .type-label {
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 15px;
+      display: block;
+    }
+    .radio-group {
+      display: flex;
+      gap: 20px;
+    }
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .radio-option input[type="radio"] {
+      accent-color: #2973B2;
+    }
+
+    /* Button Styles */
+    .button-container {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    .button {
+      padding: 14px 30px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: 0.3s;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .home-button {
+      background-color: #F0F0F0;
+      color: #000000;
+    }
+    .pay-button {
+      background-color: #2973B2;
+      color: #FFFFFF;
+    }
+    .button:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    .pay-button:hover {
+      background-color: #2973B2;
+      box-shadow: 0px 4px 15px rgba(41, 115, 178, 0.3);
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .section {
+        padding: 20px;
+        margin: 20px;
+      }
+      .detail-row {
+        flex-direction: column;
+      }
+      .detail-label, .detail-value {
+        width: 100%;
+      }
+      .detail-label {
+        margin-bottom: 5px;
+      }
+      .button-container {
+        flex-direction: column;
+      }
+      .button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="app-title">
+      <div class="icon"><i class="fas fa-university"></i></div>
+      <span>ChainFlow</span>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <i class="fas fa-bolt"></i>
+        Electricity Bill Payment
+      </div>
+
+      <form action="/process-electricity-payment" method="POST">
+        <div class="payment-details">
+          <div class="detail-row">
+            <div class="detail-label">Authority Name</div>
+            <div class="detail-value"><%= bill.authorityName %></div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Consumer Number</div>
+            <div class="detail-value"><%= bill['consumer-number'] %></div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Bill Number</div>
+            <div class="detail-value"><%= bill.billnumber %></div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Amount</div>
+            <div class="detail-value">₹<%= bill.amount %></div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Current Date</div>
+            <div class="detail-value"><%= new Date(bill.currentdate).toLocaleDateString() %></div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Due Date</div>
+            <div class="detail-value"><%= new Date(bill.due_date).toLocaleDateString() %></div>
+          </div>
+        </div>
+
+        <div class="payment-type">
+          <div class="type-label">Payment Type</div>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="type" value="global" checked>
+              Global
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="type" value="private">
+              Private
+            </label>
+          </div>
+        </div>
+
+        <!-- Hidden inputs -->
+        <input type="hidden" name="authorityName" value="<%= bill.authorityName %>">
+        <input type="hidden" name="consumer-number" value="<%= bill['consumer-number'] %>">
+        <input type="hidden" name="billnumber" value="<%= bill.billnumber %>">
+        <input type="hidden" name="amount" value="<%= bill.amount %>">
+        <input type="hidden" name="currentdate" value="<%= bill.currentdate %>">
+        <input type="hidden" name="duedate" value="<%= bill.due_date %>">
+
+        <div class="button-container">
+          <a href="/home" class="button home-button">
+            <i class="fas fa-home"></i>
+            Back to Home
+          </a>
+          <button type="submit" class="button pay-button">
+            <i class="fas fa-bolt"></i>
+            Pay Now
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

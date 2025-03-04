@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recharge Plans - ChainFlow</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .app-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-title .icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #000000;
+      font-size: 40px;
+    }
+
+    .home-button {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 24px;
+      background-color: #2973B2;
+      color: #FFFFFF;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: bold;
+      transition: 0.3s;
+      box-shadow: 0px 4px 10px rgba(41, 115, 178, 0.3);
+      margin-bottom: 20px;
+    }
+
+    .home-button i {
+      margin-right: 8px;
+    }
+
+    .home-button:hover {
+      background-color: #2973B2;
+      box-shadow: 0 0 20px rgba(41, 115, 178, 0.6);
+      transform: scale(1.05);
+    }
+
+    .section {
+      margin: 40px auto;
+      padding: 25px;
+      background: #F8F8F8;
+      border-radius: 15px;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: black;
+      font-weight: 600;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .plan {
+      background: #FFFFFF;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+    }
+
+    .plan:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .plan:last-child {
+      margin-bottom: 0;
+    }
+
+    .plan-details {
+      margin-bottom: 15px;
+    }
+
+    .title {
+      font-weight: 600;
+      color: #2973B2;
+      margin-right: 8px;
+    }
+
+    .plan-row {
+      display: flex;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+
+    .plan-row i {
+      margin-right: 10px;
+      color: #2973B2;
+      width: 20px;
+    }
+
+    button {
+      padding: 12px 24px;
+      background-color: #2973B2;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0px 4px 10px rgba(41, 115, 178, 0.3);
+    }
+
+    button:hover {
+      background-color: #2973B2;
+      box-shadow: 0 0 20px rgba(41, 115, 178, 0.6);
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+      
+      .plan {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="app-title">
+      <div class="icon"><i class="fas fa-mobile-alt"></i></div>
+      <span>Recharge Plans</span>
+    </div>
+    
+    <a href="/home" class="home-button">
+      <i class="fas fa-home"></i>
+      Home
+    </a>
+
+    <div class="section">
+      <% if (plans && plans.length > 0) { %>
+        <% plans.forEach(plan => { %>
+          <div class="plan">
+            <form action="/submit-specific-mobile-plan" method="POST">
+              <div class="plan-details">
+                <div class="plan-row">
+                  <i class="fas fa-clock"></i>
+                  <span class="title">Validity:</span>
+                  <%= plan.validity %>
+                </div>
+                <div class="plan-row">
+                  <i class="fas fa-database"></i>
+                  <span class="title">Data:</span>
+                  <%= plan.data %>
+                </div>
+                <div class="plan-row">
+                  <i class="fas fa-rupee-sign"></i>
+                  <span class="title">Price:</span>
+                  <%= plan.price %>
+                </div>
+                <% if (plan.description) { %>
+                  <div class="plan-row">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="title">Description:</span>
+                    <%= plan.description %>
+                  </div>
+                <% } %>
+                <div class="plan-row">
+                  <i class="fas fa-sim-card"></i>
+                  <span class="title">SIM:</span>
+                  <%= plan.sim %>
+                </div>
+                <div class="plan-row">
+                  <i class="fas fa-phone"></i>
+                  <span class="title">Talk Time:</span>
+                  <%= plan.talk_time %>
+                </div>
+              </div>
+
+              <input type="hidden" name="upid" value="<%= upid %>">
+              <input type="hidden" name="mobileNumber" value="<%= mobileNumber %>">
+              <input type="hidden" name="validity" value="<%= plan.validity %>">
+              <input type="hidden" name="data" value="<%= plan.data %>">
+              <input type="hidden" name="price" value="<%= plan.price %>">
+              <% if (plan.description) { %>
+                <input type="hidden" name="description" value="<%= plan.description %>">
+              <% } %>
+              <input type="hidden" name="sim" value="<%= plan.sim %>">
+              <input type="hidden" name="talk_time" value="<%= plan.talk_time %>">
+              
+              <button type="submit">
+                <i class="fas fa-shopping-cart"></i>
+                Pay Now
+              </button>
+            </form>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <div class="plan">No recharge plans found.</div>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

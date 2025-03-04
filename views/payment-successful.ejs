@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChainFlow - Payment Successful</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .app-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-title .icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #000000;
+      font-size: 40px;
+    }
+
+    .section {
+      margin: 40px auto;
+      padding: 25px;
+      background: #F8F8F8;
+      border-radius: 15px;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .success-icon {
+      color: #2973B2;
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: #2973B2;
+      font-weight: 600;
+    }
+
+    .transaction-details {
+      margin: 25px 0;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background: white;
+      border-radius: 8px;
+      margin: 10px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .detail-label {
+      color: #666;
+      font-weight: 500;
+    }
+
+    .detail-value {
+      color: #333;
+      font-weight: 600;
+    }
+
+    .recipient-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 12px;
+      margin: 20px auto;
+      object-fit: cover;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .recipient-photo:hover {
+      transform: scale(1.05);
+    }
+
+    .home-button {
+      padding: 12px 24px;
+      background-color: #2973B2;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      margin-top: 20px;
+    }
+
+    .home-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 4px 15px rgba(41, 115, 178, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .section {
+        margin: 20px auto;
+        padding: 20px;
+      }
+      
+      .detail-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 5px;
+      }
+    }
+  </style>
+  <script>
+    function formatDateToIST(dateString) {
+      const options = { 
+        timeZone: 'Asia/Kolkata', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric', 
+        hour: 'numeric', 
+        minute: 'numeric', 
+        second: 'numeric' 
+      };
+      return new Date(dateString).toLocaleString('en-IN', options);
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="app-title">
+      <div class="icon"><i class="fas fa-university"></i></div>
+      <span>ChainFlow</span>
+    </div>
+    
+    <div class="section">
+      <i class="fas fa-check-circle success-icon"></i>
+      <div class="section-title">Payment Successful</div>
+      
+      <div class="transaction-details">
+        <div class="detail-item">
+          <span class="detail-label">Amount</span>
+          <span class="detail-value"><%= detail.amount %></span>
+        </div>
+        
+        <div class="detail-item">
+          <span class="detail-label">Recipient</span>
+          <span class="detail-value"><%= detail.recipientName %></span>
+        </div>
+        
+        <img src="/uploads/<%= detail.recipientPhoto %>" alt="Recipient Photo" class="recipient-photo">
+        
+        <div class="detail-item">
+          <span class="detail-label">UPI ID</span>
+          <span class="detail-value"><%= detail.recipient %></span>
+        </div>
+        
+        <div class="detail-item">
+          <span class="detail-label">Date</span>
+          <span class="detail-value">
+            <script>document.write(formatDateToIST('<%= detail.date %>'));</script>
+          </span>
+        </div>
+      </div>
+
+      <a href="/home" class="home-button">
+        <i class="fas fa-home"></i>
+        Back to Home
+      </a>
+    </div>
+  </div>
+</body>
+</html>

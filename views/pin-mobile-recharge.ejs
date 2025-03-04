@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Mobile Transaction PIN</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #FFFFFF;
+            color: #000000;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .transaction-section {
+            margin: 20px auto;
+            padding: 40px;
+            background: #F8F8F8;
+            border-radius: 25px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .transaction-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .transaction-details {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0px 4px 12px rgba(41, 115, 178, 0.1);
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .detail-value {
+            color: #2973B2;
+            font-weight: 600;
+        }
+
+        .pin-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #2973B2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pin-input {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .pin-input input {
+            width: 60px;
+            height: 60px;
+            font-size: 28px;
+            text-align: center;
+            border: 2px solid #2973B2;
+            border-radius: 12px;
+            background: white;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 12px rgba(41, 115, 178, 0.1);
+        }
+
+        .pin-input input:focus {
+            outline: none;
+            transform: translateY(-3px);
+            box-shadow: 0px 8px 20px rgba(41, 115, 178, 0.2);
+            border-color: #2973B2;
+        }
+
+        .submit-btn {
+            padding: 14px 35px;
+            background-color: #FFFFFF;
+            color: #2973B2;
+            border: 2px solid #2973B2;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 12px rgba(41, 115, 178, 0.15);
+            margin-top: 20px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #2973B2;
+            color: #FFFFFF;
+            box-shadow: 0 8px 20px rgba(41, 115, 178, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 16px;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: rgba(220, 53, 69, 0.1);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .transaction-section {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .pin-input input {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+
+            .pin-title {
+                font-size: 20px;
+            }
+
+            .submit-btn {
+                padding: 12px 30px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="transaction-section">
+            <div class="transaction-details">
+                <div class="detail-item">
+                    <span class="detail-label">Mobile Number</span>
+                    <span class="detail-value"><%= detail.mobileNumber %></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Amount</span>
+                    <span class="detail-value">₹<%= detail.price %></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Validity</span>
+                    <span class="detail-value"><%= detail.validity %></span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Data</span>
+                    <span class="detail-value"><%= detail.data %></span>
+                </div>
+                <% if (detail.talk_time) { %>
+                <div class="detail-item">
+                    <span class="detail-label">Talk Time</span>
+                    <span class="detail-value"><%= detail.talk_time %></span>
+                </div>
+                <% } %>
+            </div>
+
+            <div class="pin-title">Enter Transaction PIN</div>
+            <% if (locals.message) { %>
+                <div class="error-message">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <%= message %>
+                </div>
+            <% } %>
+            <form action="/submit-mobile-transaction-pin" method="POST" onsubmit="combinePinAndPassDetails()">
+                <div class="pin-input">
+                    <input type="password" maxlength="1" name="pin1" required oninput="moveFocus(this, 'pin2')" autofocus>
+                    <input type="password" maxlength="1" name="pin2" required oninput="moveFocus(this, 'pin3')">
+                    <input type="password" maxlength="1" name="pin3" required oninput="moveFocus(this, 'pin4')">
+                    <input type="password" maxlength="1" name="pin4" required>
+                </div>
+                <input type="hidden" id="combinedPin" name="combinedPin">
+                <input type="hidden" name="upiId" value="<%= detail.upid %>">
+                <input type="hidden" name="mobileNumber" value="<%= detail.mobileNumber %>">
+                <input type="hidden" name="validity" value="<%= detail.validity %>">
+                <input type="hidden" name="data" value="<%= detail.data %>">
+                <input type="hidden" name="amount" value="<%= detail.price %>">
+                <input type="hidden" name="recipient" value="<%= detail.sim %>">
+                <input type="hidden" name="talk_time" value="<%= detail.talk_time %>">
+                <input type="hidden" name="type" value="<%= detail.type %>">
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-lock"></i>
+                    Confirm Transaction
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            document.getElementsByName('pin1')[0].focus();
+        };
+
+        function combinePinAndPassDetails() {
+            const pin1 = document.getElementsByName('pin1')[0].value;
+            const pin2 = document.getElementsByName('pin2')[0].value;
+            const pin3 = document.getElementsByName('pin3')[0].value;
+            const pin4 = document.getElementsByName('pin4')[0].value;
+            const combinedPin = pin1 + pin2 + pin3 + pin4;
+            document.getElementById('combinedPin').value = combinedPin;
+        }
+
+        function moveFocus(current, nextFieldID) {
+            if (current.value.length >= 1) {
+                document.getElementsByName(nextFieldID)[0]?.focus();
+            }
+        }
+
+        document.querySelectorAll('.pin-input input').forEach(input => {
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && !this.value) {
+                    const inputs = document.querySelectorAll('.pin-input input');
+                    const index = Array.from(inputs).indexOf(this);
+                    if (index > 0) {
+                        inputs[index - 1].focus();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

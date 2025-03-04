@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChainFlow - Water Bill Authorities</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .app-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-title .icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #000000;
+      font-size: 40px;
+    }
+
+    .section {
+      margin: 40px auto;
+      padding: 25px;
+      background: #F8F8F8;
+      border-radius: 15px;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 20px;
+      margin-bottom: 30px;
+      color: black;
+      font-weight: 600;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .authority-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .authority-card {
+      background: #FFFFFF;
+      border-radius: 12px;
+      padding: 20px;
+      width: 300px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .authority-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0px 4px 20px rgba(41, 115, 178, 0.4);
+    }
+
+    .photo-container {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 15px;
+      border-radius: 60px;
+      overflow: hidden;
+      border: 3px solid #2973B2;
+      box-shadow: 0 4px 8px rgba(41, 115, 178, 0.2);
+    }
+
+    .authority-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.3s;
+    }
+
+    .authority-photo:hover {
+      transform: scale(1.1);
+    }
+
+    .authority-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      text-align: center;
+      color: #2973B2;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .pay-button, .home-button {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: bold;
+      transition: 0.3s;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .pay-button {
+      background-color: #2973B2;
+      color: white;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .home-button {
+      background-color: #F0F0F0;
+      color: #333;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+    }
+
+    .pay-button:hover, .home-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .pay-button:hover {
+      background-color: #2973B2;
+    }
+
+    .home-button:hover {
+      background-color: #e4e4e4;
+    }
+
+    @media (max-width: 768px) {
+      .authority-card {
+        width: 100%;
+      }
+      
+      .home-button {
+        position: static;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/home" class="home-button">
+      <i class="fas fa-home"></i> Home
+    </a>
+
+    <div class="app-title">
+      <div class="icon"><i class="fas fa-university"></i></div>
+      <span>ChainFlow</span>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <i class="fas fa-tint"></i> Water Bill Authorities
+      </div>
+
+      <div class="authority-container">
+        <% if (waterAuthority && waterAuthority.length > 0) { %>
+          <% waterAuthority.forEach(authority => { %>
+            <div class="authority-card">
+              <div class="photo-container">
+                <img src="/uploads/<%= authority.photo %>" alt="Water Authority" class="authority-photo">
+              </div>
+              <div class="authority-name"><%= authority.name %></div>
+              <form action="/submit-water-bill-authority" method="POST">
+                <input type="hidden" name="authorityName" value="<%= authority.name %>">
+                <button type="submit" class="pay-button">
+                  <i class="fas fa-credit-card"></i> Pay Bill
+                </button>
+              </form>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <div>No water authority details found.</div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

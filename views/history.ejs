@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction History | ChainFlow</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    /* Previous styles remain the same until the button styles */
+    /* Global Styles */
+    body {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    /* App Title */
+    .app-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    .app-title .icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #000000;
+      font-size: 40px;
+    }
+
+    /* Top Navigation */
+    .top-nav {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 20px;
+    }
+
+    /* Button Styles - Updated */
+    .button {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      border: 2px solid #2973B2;
+      cursor: pointer;
+      font-size: 16px;
+      background-color: #2973B2;
+      color: #FFFFFF;
+    }
+    .button:hover {
+      background-color: #FFFFFF;
+      color: #2973B2;
+      box-shadow: 0px 4px 15px rgba(41, 115, 178, 0.2);
+      transform: translateY(-2px);
+    }
+
+    /* Section Styles */
+    .section {
+      margin: 20px auto;
+      padding: 25px;
+      background: #F8F8F8;
+      border-radius: 15px;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+    }
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: black;
+      font-weight: 600;
+      text-transform: uppercase;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .section-title i {
+      color: #2973B2;
+    }
+
+    /* Table Styles */
+    .table-container {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th {
+      background-color: #2973B2;
+      color: white;
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+    }
+    td {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    tr:hover {
+      background-color: #f8f9fa;
+    }
+    .transaction-amount {
+      font-weight: 600;
+    }
+    .credit {
+      color: #28a745;
+    }
+    .debit {
+      color: #dc3545;
+    }
+    .transaction-type {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .transaction-date {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      font-size: 18px;
+      color: #666;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+    .empty-state i {
+      font-size: 48px;
+      color: #2973B2;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      .table-container {
+        overflow-x: auto;
+      }
+      table {
+        min-width: 600px;
+      }
+      .button {
+        width: auto;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="app-title">
+      <div class="icon"><i class="fas fa-university"></i></div>
+      <span>ChainFlow</span>
+    </div>
+
+    <div class="top-nav">
+      <a href="/home" class="button">
+        <i class="fas fa-home"></i>
+        Back to Home
+      </a>
+    </div>
+
+    <div class="section">
+      <div class="section-title">
+        <i class="fas fa-history"></i>
+        Transaction History
+      </div>
+
+      <% if (transactions && transactions.length > 0) { %>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% transactions.forEach(transaction => { %>
+                <tr>
+                  <td><%= transaction.sender === upid ? transaction.recipient_name : transaction.sender_name %></td>
+                  <td class="transaction-date">
+                    <%= new Date(transaction.date).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }) %>
+                  </td>
+                  <td>
+                    <div class="transaction-type <%= transaction.sender === upid ? 'debit' : 'credit' %>">
+                      <i class="fas <%= transaction.sender === upid ? 'fa-arrow-up' : 'fa-arrow-down' %>"></i>
+                      <%= transaction.sender === upid ? 'Debit' : 'Credit' %>
+                    </div>
+                  </td>
+                  <td class="transaction-amount <%= transaction.sender === upid ? 'debit' : 'credit' %>">
+                    ₹<%= transaction.amount %>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="empty-state">
+          <i class="fas fa-receipt"></i>
+          <div>No transactions found</div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

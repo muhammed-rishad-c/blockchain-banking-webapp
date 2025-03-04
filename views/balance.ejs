@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Balance - ChainFlow</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    /* App Title */
+    .app-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      padding: 20px 0;
+    }
+
+    .app-title .icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #2973B2;
+      font-size: 40px;
+      transition: transform 0.3s ease;
+    }
+
+    .app-title:hover .icon {
+      transform: rotate(15deg);
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 25px;
+      background: #F0F0F0;
+      color: black;
+      border-radius: 20px;
+      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.08);
+      margin-bottom: 40px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .header:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .user-info img {
+      height: 120px;
+      width: 120px;
+      border-radius: 15px;
+      transition: all 0.4s ease;
+      object-fit: cover;
+    }
+
+    .user-info img:hover {
+      transform: scale(1.08);
+      box-shadow: 0px 0px 20px rgba(41, 115, 178, 0.3);
+    }
+
+    .user-info h1 {
+      font-size: 26px;
+      font-weight: 600;
+      text-transform: capitalize;
+      margin: 0;
+      color: #2973B2;
+    }
+
+    /* Balance Section */
+    .balance-section {
+      margin: 40px auto;
+      padding: 50px;
+      background: #F8F8F8;
+      border-radius: 25px;
+      box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .balance-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    .balance-title {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #2973B2;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .balance-info {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      align-items: center;
+      font-size: 22px;
+    }
+
+    .balance-amount {
+      font-size: 56px;
+      font-weight: bold;
+      color: #2973B2;
+      margin: 25px 0;
+      text-shadow: 2px 2px 4px rgba(41, 115, 178, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .balance-amount:hover {
+      transform: scale(1.05);
+    }
+
+    .upi-id {
+      padding: 20px 35px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .upi-id:hover {
+      border-color: #2973B2;
+      transform: translateY(-3px);
+      box-shadow: 0px 8px 20px rgba(41, 115, 178, 0.15);
+    }
+
+    /* Home Button */
+    .home-button {
+      padding: 14px 28px;
+      background-color: #FFFFFF;
+      color: #2973B2;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0px 4px 12px rgba(41, 115, 178, 0.15);
+      display: inline-flex;
+      align-items: center;
+      border: 2px solid #2973B2;
+    }
+
+    .home-button i {
+      margin-right: 10px;
+      font-size: 18px;
+      transition: transform 0.3s ease;
+    }
+
+    .home-button:hover {
+      background-color: #2973B2;
+      color: #FFFFFF;
+      box-shadow: 0 8px 20px rgba(41, 115, 178, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .home-button:hover i {
+      transform: scale(1.1);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #2973B2;
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #1e5c8c;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .balance-amount {
+        font-size: 42px;
+      }
+
+      .user-info {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .user-info img {
+        height: 100px;
+        width: 100px;
+      }
+
+      .user-info h1 {
+        font-size: 22px;
+      }
+
+      .balance-section {
+        padding: 30px 20px;
+      }
+
+      .balance-title {
+        font-size: 24px;
+      }
+
+      .upi-id {
+        padding: 15px 25px;
+        font-size: 18px;
+      }
+    }
+
+    /* Animation Keyframes */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .app-title,
+    .header,
+    .balance-section {
+      animation: fadeIn 0.8s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="app-title">
+      <div class="icon"><i class="fas fa-university"></i></div>
+      <span>ChainFlow</span>
+    </div>
+
+    <% if (userDetail && userDetail.length > 0) { %>
+      <% userDetail.forEach(user => { %>
+        <div class="header">
+          <div class="user-info">
+            <img src="/uploads/<%= user.photo %>" alt="User Photo">
+            <h1><%= user.fullname.charAt(0).toUpperCase() + user.fullname.slice(1).toLowerCase() %></h1>
+          </div>
+          <a href="/home" class="home-button">
+            <i class="fas fa-home"></i>
+            Home
+          </a>
+        </div>
+
+        <div class="balance-section">
+          <div class="balance-title">Account Balance</div>
+          <div class="balance-info">
+            <div class="balance-amount">₹<%= user.balance %></div>
+            <div class="upi-id">
+              <strong>UPI ID:</strong> <%= user.upid %>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <div class="balance-section">
+        <div class="balance-info">
+          <p>No user details found.</p>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

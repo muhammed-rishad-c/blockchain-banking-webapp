@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChainFlow - Friend Transaction</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .app-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-title .icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #000000;
+      font-size: 40px;
+    }
+
+    .transaction-form {
+      background: #F8F8F8;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 25px;
+      color: black;
+      font-weight: 600;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background-color: #FFFFFF;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #2973B2;
+      box-shadow: 0 0 0 2px rgba(41, 115, 178, 0.2);
+    }
+
+    .button-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .submit-btn,
+    .home-btn {
+      flex: 1;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .submit-btn {
+      background-color: #2973B2;
+      color: white;
+    }
+
+    .home-btn {
+      background-color: #F0F0F0;
+      color: #333;
+    }
+
+    .submit-btn:hover,
+    .home-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .submit-btn:hover {
+      background-color: #2973B2;
+    }
+
+    .home-btn:hover {
+      background-color: #E0E0E0;
+    }
+
+    .error-message {
+      background-color: #ffebee;
+      color: #c62828;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+        margin: 20px auto;
+      }
+
+      .transaction-form {
+        padding: 20px;
+      }
+
+      .button-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="app-title">
+      <div class="icon"><i class="fas fa-university"></i></div>
+      <span>ChainFlow</span>
+    </div>
+
+    <div class="transaction-form">
+      <div class="section-title">Friend Transaction</div>
+      
+      <% if (locals.message) { %>
+        <div class="error-message"><%= message %></div>
+      <% } %>
+
+      <form action="/submit-friend-transaction" method="POST">
+        <div class="form-group">
+          <label for="amount">Amount:</label>
+          <input type="number" id="amount" name="amount" required>
+        </div>
+
+        <div class="form-group">
+          <label for="transactionType">Transaction Type:</label>
+          <select id="transactionType" name="type" required>
+            <option value="global">Global</option>
+            <option value="private">Private</option>
+          </select>
+        </div>
+
+        <input type="hidden" id="upiId" name="upiId" value="<%= upId %>">
+        <input type="hidden" id="recipient" name="recipient" value="<%= recipient %>">
+
+        <div class="button-container">
+          <button type="button" onclick="window.location.href='/home'" class="home-btn">
+            <i class="fas fa-home"></i> Home
+          </button>
+          <button type="submit" class="submit-btn">
+            <i class="fas fa-paper-plane"></i> Pay
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

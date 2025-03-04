@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - ChainFlow</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .app-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-title .icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #000000;
+      font-size: 40px;
+    }
+
+    .profile-section {
+      background: #F8F8F8;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .profile-photo-container {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .profile-photo {
+      width: 150px;
+      height: 150px;
+      border-radius: 15px;
+      object-fit: cover;
+      border: 3px solid #2973B2;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .profile-photo:hover {
+      transform: scale(1.05);
+    }
+
+    .profile-details {
+      width: 100%;
+      max-width: 400px;
+      background: #FFFFFF;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #E0E0E0;
+    }
+
+    .detail-item:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: #666;
+    }
+
+    .detail-value {
+      color: #2973B2;
+      font-weight: 500;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .profile-btn {
+      flex: 1;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .home-btn {
+      background-color: #2973B2;
+      color: #FFFFFF;
+    }
+
+    .logout-btn {
+      background-color: #F0F0F0;
+      color: #D83232;
+    }
+
+    .profile-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .home-btn:hover {
+      background-color: #2973B2;
+    }
+
+    .logout-btn:hover {
+      background-color: #FFE5E5;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px auto;
+        padding: 15px;
+      }
+
+      .profile-section {
+        padding: 20px;
+      }
+
+      .button-container {
+        flex-direction: column;
+      }
+
+      .profile-photo {
+        width: 120px;
+        height: 120px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="app-title">
+      <div class="icon"><i class="fas fa-university"></i></div>
+      <span>ChainFlow</span>
+    </div>
+
+    <% if (user) { %>
+      <div class="profile-section">
+        <div class="profile-content">
+          <div class="profile-photo-container">
+            <img src="/uploads/<%= user.photo %>" alt="User Photo" class="profile-photo">
+          </div>
+
+          <div class="profile-details">
+            <div class="detail-item">
+              <span class="detail-label">Full Name</span>
+              <span class="detail-value"><%= user.fullname %></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Username</span>
+              <span class="detail-value"><%= user.username %></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Phone Number</span>
+              <span class="detail-value"><%= user.phonenumber %></span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">UPI ID</span>
+              <span class="detail-value"><%= user.upid %></span>
+            </div>
+          </div>
+
+          <div class="button-container">
+            <a href="/home" class="profile-btn home-btn">
+              <i class="fas fa-home"></i> Home
+            </a>
+            <a href="/logout" class="profile-btn logout-btn">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    <% } else { %>
+      <div class="profile-section">
+        <div style="text-align: center; padding: 20px;">
+          No user details found.
+        </div>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChainFlow - Search Transactions</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .app-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-title .icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #000000;
+      font-size: 40px;
+    }
+
+    .section {
+      margin: 40px auto;
+      padding: 25px;
+      background: #F8F8F8;
+      border-radius: 15px;
+      box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      margin-bottom: 30px;
+      color: black;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #333;
+      text-align: left;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #2973B2;
+      box-shadow: 0 0 0 2px rgba(41, 115, 178, 0.2);
+    }
+
+    .error-message {
+      background-color: #fff3f3;
+      color: #dc3545;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .search-button {
+      padding: 12px 24px;
+      background-color: #2973B2;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .home-button {
+      padding: 12px 24px;
+      background-color: #F0F0F0;
+      color: #333;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .search-button:hover,
+    .home-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-button:hover {
+      background-color: #2973B2;
+    }
+
+    .home-button:hover {
+      background-color: #E0E0E0;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .section {
+        margin: 20px auto;
+        padding: 20px;
+      }
+      
+      .button-container {
+        flex-direction: column;
+      }
+      
+      .search-button,
+      .home-button {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="app-title">
+      <div class="icon"><i class="fas fa-university"></i></div>
+      <span>ChainFlow</span>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">Search Transactions</div>
+      
+      <% if (locals.message) { %>
+        <div class="error-message">
+          <%= message %>
+        </div>
+      <% } %>
+
+      <form action="/search" method="POST">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input 
+            type="text" 
+            id="username"
+            name="username" 
+            placeholder="Enter username to search"
+            required
+          >
+        </div>
+
+        <div class="button-container">
+          <button type="submit" class="search-button">
+            <i class="fas fa-search"></i>
+            Search
+          </button>
+          <a href="/home" class="home-button">
+            <i class="fas fa-home"></i>
+            Home
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

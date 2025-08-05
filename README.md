@@ -4,9 +4,6 @@
 
 ChainFlex is a full-stack web application built on the MERN stack that simulates a modern financial ecosystem on a decentralized ledger. It features a unique **dual-ledger system** that supports both transparent **Global** transactions and confidential **Private** transactions, mimicking real-world financial privacy needs.
 
-**Live Demo:** `[Link to your deployed web app]`
-
-![Project Screenshot](images/app-screenshot.png)
 ## 📖 Table of Contents
 * [Key Features](#-key-features)
 * [System Architecture](#-system-architecture)

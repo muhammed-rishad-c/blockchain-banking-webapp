@@ -1,11 +1,11 @@
 # 💸 ChainFlow: Blockchain-Based Banking Web App
 
-[cite_start]ChainFlow is a secure, full-stack financial services platform that integrates a custom **Proof of Work (PoW) Blockchain** for immutable transaction logging[cite: 29]. [cite_start]The application allows users to perform P2P transfers, pay bills, and manage their finances while ensuring top-tier security through cryptographic hashing and multi-factor authentication[cite: 30, 31].
+ChainFlow is a secure, full-stack financial services platform that integrates a custom **Proof of Work (PoW) Blockchain** for immutable transaction logging. The application allows users to perform P2P transfers, pay bills, and manage their finances while ensuring top-tier security through cryptographic hashing and multi-factor authentication.
 
 ## 🚀 Key Features
 
 ### 🔐 Security & Authentication
-* [cite_start]**Cryptographic Security**: Implements `bcrypt` with 10 salt rounds for secure password and UPI PIN hashing[cite: 30].
+* **Cryptographic Security**: Implements `bcrypt` with 10 salt rounds for secure password and UPI PIN hashing.
 * **Role-Based Access**: Uses Express-session middleware to manage user sessions and verify login status for sensitive operations.
 * **PIN-Verified Transactions**: Requires a hashed 4-digit PIN for viewing balances and completing payments.
 
@@ -25,9 +25,9 @@
 
 ## 🛠️ Tech Stack
 
-* [cite_start]**Backend**: Node.js, Express.js [cite: 29]
-* [cite_start]**Database**: PostgreSQL (Relational data & Transactional logs) [cite: 29]
-* [cite_start]**Blockchain**: Custom JavaScript implementation (SHA-256) [cite: 30]
+* **Backend**: Node.js, Express.js
+* **Database**: PostgreSQL (Relational data & Transactional logs)
+* **Blockchain**: Custom JavaScript implementation (SHA-256)
 * **Frontend**: EJS (Embedded JavaScript Templates)
 * **Security**: Bcrypt (Hashing), Express-Session (Authentication)
 * **File Handling**: Multer (User Profile Photo Uploads)
@@ -40,6 +40,7 @@
 ├── helper/
 │   └── database.js     # PostgreSQL queries and transactional helpers
 ├── public/
-│   └── uploads/        # User profile image storage
+│   └── uploads/        
 ├── views/              # EJS templates for UI
 └── index.js            # Main application entry point & API routes
+

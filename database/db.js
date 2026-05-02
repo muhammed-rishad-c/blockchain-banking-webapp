@@ -3,18 +3,21 @@ import env from 'dotenv';
 
 env.config();
 
-const db=new pg.Client({
-    user: process.env.PG_USER,
-    host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
-    password: process.env.PG_PASSWORD,
-    port: process.env.PG_PORT,
-})
+const db = new pg.Client({
+    // Use the single URL you provided in Render
+    connectionString: process.env.DATABASE_URL,
+    // CRITICAL: Neon requires SSL to connect from Render
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
 
-db.connect((err)=>{
-    if(err) console.log("error in connecting database ");
-    else console.log("database is connected.....");
-    
-})
+db.connect((err) => {
+    if (err) {
+        console.error("error in connecting database:", err.message);
+    } else {
+        console.log("database is connected.....");
+    }
+});
 
 export default db;
